@@ -1,0 +1,100 @@
+{
+    "meta": {
+        "title": "Loyal Studio",
+        "description": "Capturing moments that last a lifetime.",
+        "email": "contact@loyalstudio.com",
+        "phone": "+91 8760302138",
+        "instagram": "https://www.instagram.com/loyal_studi0?igsh=MXdtNnY1b3ZtdDFr",
+        "facebook": "https://facebook.com",
+        "youtube": "https://www.youtube.com/@loyalstudioo"
+    },
+    "hero": {
+        "title": "Capturing Life's Essence",
+        "subtitle": "Professional Photography & Visual Artistry",
+        "images": [
+            "/wedding/IMG_1437.JPG",
+            "/candid/6Q4A2262.JPG",
+            "/commercial/DJI_20251209103159_0465_D.JPG",
+            "/wedding/IMG_1438.JPG"
+        ]
+    },
+    "about": {
+        "title": "The Artist",
+        "image": "https://images.unsplash.com/photo-1554048612-387768052bf7?q=80&w=2000&auto=format&fit=crop",
+        "text": "I am a visual artist and photographer with a passion for storytelling. My work spans across weddings, commercial projects, and branding design. I believe in capturing the raw emotion and beauty of every moment, turning fleeting seconds into timeless memories. With years of experience and a keen eye for detail, I strive to deliver images that are not just seen, but felt."
+    },
+    "portfolio": [
+        {
+            "id": 1,
+            "category": "Potraits",
+            "src": "/wedding/IMG_1437.JPG",
+            "title": "wedding 1"
+        },
+        {
+            "id": 2,
+            "category": "Potraits",
+            "src": "/wedding/IMG_1438.JPG",
+            "title": "wedding 2"
+        },
+        {
+            "id": 3,
+            "category": "Engagements",
+            "src": "/candid/6Q4A2262.JPG",
+            "title": "candid 1"
+        },
+        {
+            "id": 4,
+            "category": "Engagements",
+            "src": "/candid/6Q4A3271.JPG",
+            "title": "candid 2"
+        },
+        {
+            "id": 5,
+            "category": "Pre-weddings",
+            "src": "/baby shoot/22 (1).jpg",
+            "title": "Baby Shoot 1"
+        },
+        {
+            "id": 6,
+            "category": "Pre-weddings",
+            "src": "/baby shoot/00.jpg",
+            "title": "Baby Shoot 2"
+        },
+        {
+            "id": 7,
+            "category": "Weddings",
+            "src": "/Model shoot/DSC00608 copy.jpg",
+            "title": "Model shoot 1"
+        },
+        {
+            "id": 8,
+            "category": "Weddings",
+            "src": "/Model shoot/DSC09134 copy.jpg",
+            "title": "Model shoot 2"
+        },
+        {
+            "id": 9,
+            "category": "Baby shoot",
+            "src": "/commercial/DJI_20251209103159_0465_D.JPG",
+            "title": "commercial 1"
+        },
+        {
+            "id": 10,
+            "category": "Baby shoot",
+            "src": "/commercial/DJI_20251209112716_0490_D.JPG",
+            "title": "commercial 2"
+        },
+        {
+            "id": 11,
+            "category": "Commercial",
+            "src": "/commercial/DJI_20251209103159_0465_D.JPG",
+            "title": "commercial 1"
+        },
+        {
+            "id": 12,
+            "category": "Commercial",
+            "src": "/commercial/DJI_20251209112716_0490_D.JPG",
+            "title": "commercial 2"
+        }
+    ]
+}
