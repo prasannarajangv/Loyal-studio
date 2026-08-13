@@ -40,10 +40,12 @@ const Contact = () => {
                             placeholder="Your Name"
                             style={{
                                 padding: '1rem',
-                                border: '1px solid #ddd',
+                                border: '1px solid #444',
                                 fontSize: '1rem',
                                 outline: 'none',
-                                fontFamily: 'inherit'
+                                fontFamily: 'inherit',
+                                background: '#1a1a1a',
+                                color: '#ffffff'
                             }}
                         />
                         <input
@@ -51,10 +53,12 @@ const Contact = () => {
                             placeholder="Your Email"
                             style={{
                                 padding: '1rem',
-                                border: '1px solid #ddd',
+                                border: '1px solid #444',
                                 fontSize: '1rem',
                                 outline: 'none',
-                                fontFamily: 'inherit'
+                                fontFamily: 'inherit',
+                                background: '#1a1a1a',
+                                color: '#ffffff'
                             }}
                         />
                         <textarea
@@ -62,11 +66,13 @@ const Contact = () => {
                             placeholder="Tell me about your project"
                             style={{
                                 padding: '1rem',
-                                border: '1px solid #ddd',
+                                border: '1px solid #444',
                                 fontSize: '1rem',
                                 outline: 'none',
                                 resize: 'vertical',
-                                fontFamily: 'inherit'
+                                fontFamily: 'inherit',
+                                background: '#1a1a1a',
+                                color: '#ffffff'
                             }}
                         />
                         <button type="submit" className="btn" style={{ width: 'fit-content' }}>

@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import content from '../data/content.json';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Portfolio = ({ portfolioCategory, setPortfolioCategory }) => {
     const [selectedItem, setSelectedItem] = useState(null); // For Lightbox
@@ -32,16 +33,32 @@ const Portfolio = ({ portfolioCategory, setPortfolioCategory }) => {
         }
     };
 
-    // Extract unique categories (Removing 'All' as requested)
+    // Extract unique categories
     const categories = [...new Set(content.portfolio.map(item => item.category))];
 
-    // Filter items (Defaults to first category if none matches, but App.jsx handles default)
-    const filteredItems = content.portfolio.filter(item => item.category === portfolioCategory);
+    // Helper to slugify category for URLs
+    const slug = (s) => encodeURIComponent(s.toLowerCase().replace(/\s+/g, '-'));
+    const navigate = useNavigate();
+
+    // If `portfolioCategory` prop provided, filter by it; otherwise show all
+    const filteredItems = portfolioCategory ? content.portfolio.filter(item => item.category === portfolioCategory) : content.portfolio;
+
+    const scrollerRef = useRef(null);
+
+    const scrollNext = () => {
+        if (!scrollerRef.current) return;
+        scrollerRef.current.scrollBy({ left: scrollerRef.current.clientWidth * 0.8, behavior: 'smooth' });
+    };
+
+    const scrollPrev = () => {
+        if (!scrollerRef.current) return;
+        scrollerRef.current.scrollBy({ left: -scrollerRef.current.clientWidth * 0.8, behavior: 'smooth' });
+    };
 
     return (
         <section id="portfolio" className="section" style={{ background: 'var(--color-bg)' }}>
             <div className="container">
-                <h2 style={{ textAlign: 'center', marginBottom: '3rem', fontSize: '2.5rem' }}>Selected Works</h2>
+                <h2 style={{ textAlign: 'center', marginBottom: '3rem', fontSize: '2.5rem' }}>Our Works</h2>
 
                 {/* Filters */}
                 <div style={{
@@ -54,7 +71,13 @@ const Portfolio = ({ portfolioCategory, setPortfolioCategory }) => {
                     {categories.map(cat => (
                         <button
                             key={cat}
-                            onClick={() => setPortfolioCategory(cat)}
+                            onClick={() => {
+                                if (typeof setPortfolioCategory === 'function') {
+                                    setPortfolioCategory(cat);
+                                } else {
+                                    navigate(`/portfolio/${slug(cat)}`);
+                                }
+                            }}
                             style={{
                                 background: 'transparent',
                                 border: 'none',
@@ -72,64 +95,82 @@ const Portfolio = ({ portfolioCategory, setPortfolioCategory }) => {
                     ))}
                 </div>
 
-                {/* Grid */}
-                <motion.div
-                    layout
-                    style={{
-                        display: 'grid',
-                        gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
-                        gap: '1.5rem'
-                    }}
-                >
-                    <AnimatePresence>
-                        {filteredItems.map(item => (
-                            <motion.div
-                                layout
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                exit={{ opacity: 0 }}
-                                key={item.id}
-                                style={{ position: 'relative', cursor: 'pointer', overflow: 'hidden', aspectRatio: '3/2' }}
-                                className="portfolio-item"
-                                onClick={() => openLightbox(item)}
-                            >
-                                <img
-                                    src={Array.isArray(item.src) ? item.src[0] : item.src}
-                                    alt={item.title}
-                                    style={{
+                {/* Grid or horizontal scroller for category view */}
+                {portfolioCategory ? (
+                    <div style={{ position: 'relative' }}>
+                        <button onClick={scrollPrev} style={{ position: 'absolute', left: 0, top: '50%', transform: 'translateY(-50%)', zIndex: 2, background: 'rgba(0,0,0,0.4)', border: 'none', color: '#fff', padding: '0.6rem 0.8rem', cursor: 'pointer' }}>&lsaquo;</button>
+                        <div ref={scrollerRef} style={{ display: 'flex', gap: '1.5rem', overflowX: 'auto', padding: '1rem 2rem', scrollSnapType: 'x mandatory', WebkitOverflowScrolling: 'touch' }}>
+                            {filteredItems.map(item => (
+                                <div key={item.id} style={{ minWidth: '70vw', maxWidth: '900px', scrollSnapAlign: 'center', position: 'relative', cursor: 'pointer' }} className="portfolio-item" onClick={() => openLightbox(item)}>
+                                    <img src={Array.isArray(item.src) ? item.src[0] : item.src} alt={item.title} style={{ width: '100%', height: '60vh', objectFit: 'cover', borderRadius: 8 }} />
+                                    <div style={{ position: 'absolute', left: '2rem', bottom: '2rem', color: '#fff' }}>
+                                        <h3 style={{ margin: 0 }}>{item.title}</h3>
+                                        <div style={{ textTransform: 'uppercase', fontSize: '0.8rem' }}>{item.category}</div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                        <button onClick={scrollNext} style={{ position: 'absolute', right: 0, top: '50%', transform: 'translateY(-50%)', zIndex: 2, background: 'rgba(0,0,0,0.4)', border: 'none', color: '#fff', padding: '0.6rem 0.8rem', cursor: 'pointer' }}>&rsaquo;</button>
+                    </div>
+                ) : (
+                    <motion.div
+                        layout
+                        style={{
+                            display: 'grid',
+                            gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
+                            gap: '1.5rem'
+                        }}
+                    >
+                        <AnimatePresence>
+                            {filteredItems.map(item => (
+                                <motion.div
+                                    layout
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    exit={{ opacity: 0 }}
+                                    key={item.id}
+                                    style={{ position: 'relative', cursor: 'pointer', overflow: 'hidden', aspectRatio: '3/2' }}
+                                    className="portfolio-item"
+                                    onClick={() => openLightbox(item)}
+                                >
+                                    <img
+                                        src={Array.isArray(item.src) ? item.src[0] : item.src}
+                                        alt={item.title}
+                                        style={{
+                                            width: '100%',
+                                            height: '100%',
+                                            objectFit: 'cover',
+                                            transition: 'transform 0.5s ease'
+                                        }}
+                                    />
+                                    <div className="overlay" style={{
+                                        position: 'absolute',
+                                        top: 0,
+                                        left: 0,
                                         width: '100%',
                                         height: '100%',
-                                        objectFit: 'cover',
-                                        transition: 'transform 0.5s ease'
-                                    }}
-                                />
-                                <div className="overlay" style={{
-                                    position: 'absolute',
-                                    top: 0,
-                                    left: 0,
-                                    width: '100%',
-                                    height: '100%',
-                                    background: 'rgba(0,0,0,0.4)',
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                    justifyContent: 'center',
-                                    alignItems: 'center',
-                                    opacity: 0,
-                                    transition: 'opacity 0.3s ease',
-                                    color: 'white'
-                                }}>
-                                    <h3 style={{ marginBottom: '0.5rem' }}>{item.title}</h3>
-                                    <span style={{ fontSize: '0.875rem', textTransform: 'uppercase', letterSpacing: '1px' }}>{item.category}</span>
-                                    {Array.isArray(item.src) && item.src.length > 1 && (
-                                        <span style={{ marginTop: '0.5rem', fontSize: '0.75rem', background: 'rgba(255,255,255,0.2)', padding: '0.2rem 0.5rem', borderRadius: '4px' }}>
-                                            View {item.src.length} Photos
-                                        </span>
-                                    )}
-                                </div>
-                            </motion.div>
-                        ))}
-                    </AnimatePresence>
-                </motion.div>
+                                        background: 'rgba(0,0,0,0.4)',
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        justifyContent: 'center',
+                                        alignItems: 'center',
+                                        opacity: 0,
+                                        transition: 'opacity 0.3s ease',
+                                        color: 'white'
+                                    }}>
+                                        <h3 style={{ marginBottom: '0.5rem' }}>{item.title}</h3>
+                                        <span style={{ fontSize: '0.875rem', textTransform: 'uppercase', letterSpacing: '1px' }}>{item.category}</span>
+                                        {Array.isArray(item.src) && item.src.length > 1 && (
+                                            <span style={{ marginTop: '0.5rem', fontSize: '0.75rem', background: 'rgba(255,255,255,0.2)', padding: '0.2rem 0.5rem', borderRadius: '4px' }}>
+                                                View {item.src.length} Photos
+                                            </span>
+                                        )}
+                                    </div>
+                                </motion.div>
+                            ))}
+                        </AnimatePresence>
+                    </motion.div>
+                )}
             </div>
             {/* Lightbox */}
             <AnimatePresence>

@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 const Hero = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
+    const [scrollY, setScrollY] = useState(0);
 
     useEffect(() => {
         const timer = setInterval(() => {
@@ -11,6 +12,20 @@ const Hero = () => {
         }, 3000);
         return () => clearInterval(timer);
     }, []);
+
+    // Track scroll position for parallax effect
+    useEffect(() => {
+        const handleScroll = () => {
+            setScrollY(window.scrollY);
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
+
+    // Calculate parallax offset (reduced on mobile for better performance)
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+    const parallaxOffset = isMobile ? scrollY * 0.3 : scrollY * 0.5;
 
     return (
         <section id="home" style={{
@@ -21,7 +36,9 @@ const Hero = () => {
             display: 'flex',
             alignItems: 'flex-end',
             justifyContent: 'center',
-            color: 'white'
+            color: 'white',
+            marginTop: 0,
+            paddingTop: 0
         }}>
             {/* Background Image Slider */}
             <AnimatePresence initial={false}>
@@ -40,18 +57,32 @@ const Hero = () => {
                         backgroundImage: `url(${content.hero.images[currentIndex]})`,
                         backgroundSize: 'cover',
                         backgroundPosition: 'center',
-                        filter: 'brightness(0.6)'
+                        filter: 'brightness(0.35)',
+                        zIndex: -1,
+                        transform: `translateY(${parallaxOffset}px)`,
+                        transition: 'transform 0.1s ease-out'
                     }}
                 />
             </AnimatePresence>
+
+            {/* Overlay to improve text contrast during image transitions */}
+            <div style={{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                width: '100%',
+                height: '100%',
+                background: 'linear-gradient(180deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.45) 40%, rgba(0,0,0,0.15) 100%)',
+                zIndex: 0
+            }} />
 
             {/* Content */}
             <div className="container" style={{
                 position: 'relative',
                 textAlign: 'center',
                 zIndex: 1,
-                paddingBottom: '3rem', // Moved to the "dead end"
-                opacity: 0.5
+                paddingBottom: '3rem',
+                opacity: 1
             }}>
                 <motion.h1
                     initial={{ opacity: 0, y: 30 }}
@@ -63,7 +94,8 @@ const Hero = () => {
                         lineHeight: 1.1,
                         textTransform: 'uppercase',
                         letterSpacing: '4px',
-                        whiteSpace: 'nowrap' // Forced into a single line
+                        whiteSpace: 'nowrap', // Forced into a single line
+                        textShadow: '0 6px 20px rgba(0,0,0,0.6)'
                     }}
                 >
                     {content.hero.title}
@@ -76,7 +108,8 @@ const Hero = () => {
                         fontSize: '1rem',
                         fontWeight: 300,
                         letterSpacing: '2px',
-                        textTransform: 'uppercase'
+                        textTransform: 'uppercase',
+                        textShadow: '0 4px 16px rgba(0,0,0,0.55)'
                     }}
                 >
                     {content.hero.subtitle}

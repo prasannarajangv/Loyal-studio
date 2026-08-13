@@ -4,10 +4,12 @@ import content from '../data/content.json';
 const Footer = () => {
     return (
         <footer style={{
-            background: 'var(--color-dark-gray)',
+            background: '#0a0a0a',
             color: 'white',
             padding: '3rem 0',
-            textAlign: 'center'
+            textAlign: 'center',
+            marginTop: 'auto',
+            borderTop: '1px solid rgba(255, 255, 255, 0.1)'
         }}>
             <div className="container">
                 <h3 style={{ fontFamily: 'var(--font-heading)', fontSize: '1.5rem', marginBottom: '1rem' }}>{content.meta.title}</h3>
