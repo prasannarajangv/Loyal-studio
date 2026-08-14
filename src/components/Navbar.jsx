@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, ChevronDown } from 'lucide-react';
 import content from '../data/content.json';
 import { useNavigate } from 'react-router-dom';
 
@@ -85,21 +85,29 @@ const Navbar = () => {
     const navigateTo = (path) => {
         setIsOpen(false);
         setShowDropdown(false);
+        setActiveMenu(null);
         navigate(path);
+    };
+
+    const toggleMobileMenu = () => {
+        setIsOpen((prev) => !prev);
+        setActiveMenu(null);
+    };
+
+    const toggleMobilePortfolio = () => {
+        setActiveMenu((prev) => (prev === 'portfolio' ? null : 'portfolio'));
     };
 
     const handleCategoryClick = (cat) => {
         navigateTo(`/portfolio/${slug(cat)}`);
     };
 
-    const leftLinks = [
+    const primaryLinks = [
         { title: 'Home', path: '/' },
         { title: 'About', path: '/about' },
     ];
 
-    const rightLinks = [
-        { title: 'Contact', path: '/contact' },
-    ];
+    const contactLink = { title: 'Contact', path: '/contact' };
 
     return (
         <nav ref={navRef} style={{
@@ -128,31 +136,16 @@ const Navbar = () => {
                 transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
             }}>
 
-                {/* Desktop Left Links */}
-                <div className="desktop-menu-left" style={{ 
-                    display: 'flex', 
-                    alignItems: 'center',
-                    gap: 'clamp(0.5rem, 1.5vw, 2rem)',
-                    flex: 1
-                }}>
-                    {leftLinks.map((link) => <LinkItem key={link.title} link={link} onNavigate={navigateTo} />)}
-                </div>
-
-                {/* Centered Logo */}
+                {/* Brand: Logo + Name, left-aligned */}
                 <div
                     onClick={() => navigateTo('/')}
                     style={{
-                        fontFamily: 'var(--font-heading)',
-                        fontSize: 'clamp(1.2rem, 3vw, 2rem)',
                         cursor: 'pointer',
-                        fontWeight: 700,
-                        textAlign: 'center',
-                        whiteSpace: 'nowrap',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 'clamp(0.6rem, 1.2vw, 1rem)',
                         zIndex: 2,
-                        textTransform: 'uppercase',
-                        letterSpacing: 'clamp(2px, 0.3vw, 4px)',
                         flex: '0 1 auto',
-                        padding: '0 clamp(0.5rem, 1vw, 3rem)',
                         transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
                         minWidth: 'fit-content',
                         opacity: 0.95
@@ -167,17 +160,37 @@ const Navbar = () => {
                     }}
                     className="nav-logo"
                 >
-                    {content.meta.title}
+                    <img
+                        src="/logo-240.webp"
+                        alt=""
+                        style={{
+                            height: 'clamp(42px, 7vw, 64px)',
+                            width: 'auto',
+                            objectFit: 'contain'
+                        }}
+                    />
+                    <span style={{
+                        fontFamily: 'var(--font-heading)',
+                        fontSize: 'clamp(1.1rem, 2.8vw, 1.7rem)',
+                        fontWeight: 700,
+                        textAlign: 'left',
+                        whiteSpace: 'nowrap',
+                        textTransform: 'uppercase',
+                        letterSpacing: 'clamp(1px, 0.25vw, 3px)'
+                    }}>
+                        {content.meta.title}
+                    </span>
                 </div>
 
-                {/* Desktop Right Links */}
-                <div className="desktop-menu-right" style={{ 
-                    display: 'flex', 
+                {/* Desktop Nav Links, right-aligned */}
+                <div className="desktop-menu-right" style={{
+                    display: 'flex',
                     alignItems: 'center',
                     gap: 'clamp(0.5rem, 1.5vw, 2rem)',
-                    flex: 1,
                     justifyContent: 'flex-end'
                 }}>
+                    {primaryLinks.map((link) => <LinkItem key={link.title} link={link} onNavigate={navigateTo} />)}
+
                     {/* Portfolio Dropdown */}
                     <div
                         style={{ position: 'relative', display: 'inline-block' }}
@@ -264,11 +277,11 @@ const Navbar = () => {
                         )}
                     </div>
 
-                    {rightLinks.map((link) => <LinkItem key={link.title} link={link} onNavigate={navigateTo} />)}
+                    <LinkItem link={contactLink} onNavigate={navigateTo} />
                 </div>
 
                 {/* Mobile Menu Button */}
-                <div className="mobile-toggle" onClick={() => setIsOpen(!isOpen)} style={{
+                <div className="mobile-toggle" onClick={toggleMobileMenu} style={{
                     cursor: 'pointer',
                     position: 'absolute',
                     right: 'clamp(0.75rem, 2vw, 1.5rem)',
@@ -330,16 +343,33 @@ const Navbar = () => {
                         onMouseLeave={(e) => e.currentTarget.style.opacity = '0.9'}
                     >About</div>
 
-                    <div style={{ 
-                        padding: '1rem 0', 
-                        fontWeight: 'bold', 
-                        textTransform: 'uppercase', 
-                        borderTop: '1px solid rgba(255,255,255,0.05)', 
-                        marginTop: '1rem',
-                        fontSize: 'clamp(0.75rem, 1.8vw, 0.95rem)',
-                        opacity: 0.75
-                    }}>Portfolio</div>
-                    {categories.map((cat, idx) => (
+                    <div
+                        onClick={toggleMobilePortfolio}
+                        style={{
+                            padding: '0.75rem 0',
+                            fontWeight: 'bold',
+                            textTransform: 'uppercase',
+                            borderTop: '1px solid rgba(255,255,255,0.05)',
+                            marginTop: '0.25rem',
+                            fontSize: 'clamp(0.75rem, 1.8vw, 0.95rem)',
+                            opacity: 0.9,
+                            cursor: 'pointer',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            gap: '0.4rem'
+                        }}
+                    >
+                        Portfolio
+                        <ChevronDown
+                            size={16}
+                            style={{
+                                transition: 'transform 0.25s ease',
+                                transform: activeMenu === 'portfolio' ? 'rotate(180deg)' : 'rotate(0deg)'
+                            }}
+                        />
+                    </div>
+                    {activeMenu === 'portfolio' && categories.map((cat, idx) => (
                         <div
                             key={cat}
                             onClick={() => handleCategoryClick(cat)}
@@ -428,7 +458,6 @@ const Navbar = () => {
                 }
 
                 @media (max-width: 1024px) {
-                    .desktop-menu-left,
                     .desktop-menu-right {
                         display: none !important;
                     }
@@ -437,7 +466,6 @@ const Navbar = () => {
                     }
                 }
                 @media (min-width: 1025px) {
-                    .desktop-menu-left,
                     .desktop-menu-right {
                         display: flex !important;
                     }

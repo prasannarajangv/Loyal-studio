@@ -4,12 +4,9 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "predev": "node generate-image-variants.mjs",
     "dev": "vite",
-    "prebuild": "node generate-image-variants.mjs",
     "build": "vite build",
-    "preview": "vite preview",
-    "generate-images": "node generate-image-variants.mjs"
+    "preview": "vite preview"
   },
   "dependencies": {
     "framer-motion": "^10.18.0",

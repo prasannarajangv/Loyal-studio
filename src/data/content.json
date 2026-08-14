@@ -12,10 +12,10 @@
         "title": "Capturing Life's Essence",
         "subtitle": "Professional Photography & Visual Artistry",
         "images": [
-            "/wedding/wedding-1-1200w.webp",
-            "/candid/candid-1-1200w.webp",
-            "/commercial/commercial-1-1200w.webp",
-            "/wedding/wedding-2-1200w.webp"
+            "/wedding-photography/1-1200w.webp",
+            "/pre-wedding-shoot/1-1200w.webp",
+            "/maternity-shoot/1-1200w.webp",
+            "/wedding-photography/2-1200w.webp"
         ]
     },
     "about": {
@@ -26,75 +26,183 @@
     "portfolio": [
         {
             "id": 1,
-            "category": "Potraits",
-            "src": "/wedding/wedding-1-1200w.webp",
-            "title": "wedding 1"
+            "category": "Wedding Photography",
+            "src": "/wedding-photography/1-1200w.webp",
+            "title": "Wedding Photography 1"
         },
         {
             "id": 2,
-            "category": "Potraits",
-            "src": "/wedding/wedding-2-1200w.webp",
-            "title": "wedding 2"
+            "category": "Wedding Photography",
+            "src": "/wedding-photography/2-1200w.webp",
+            "title": "Wedding Photography 2"
         },
         {
             "id": 3,
-            "category": "Engagements",
-            "src": "/candid/candid-1-1200w.webp",
-            "title": "candid 1"
+            "category": "Wedding Photography",
+            "src": "/wedding-photography/3-1200w.webp",
+            "title": "Wedding Photography 3"
         },
         {
             "id": 4,
-            "category": "Engagements",
-            "src": "/candid/candid-2-1200w.webp",
-            "title": "candid 2"
+            "category": "Pre-Wedding",
+            "src": "/pre-wedding-shoot/1-1200w.webp",
+            "title": "Pre-Wedding 1"
         },
         {
             "id": 5,
-            "category": "Pre-weddings",
-            "src": "/baby shoot/baby-1-1200w.webp",
-            "title": "Baby Shoot 1"
+            "category": "Pre-Wedding",
+            "src": "/pre-wedding-shoot/2-1200w.webp",
+            "title": "Pre-Wedding 2"
         },
         {
             "id": 6,
-            "category": "Pre-weddings",
-            "src": "/baby shoot/baby-2-1200w.webp",
-            "title": "Baby Shoot 2"
+            "category": "Pre-Wedding",
+            "src": "/pre-wedding-shoot/3-1200w.webp",
+            "title": "Pre-Wedding 3"
         },
         {
             "id": 7,
-            "category": "Weddings",
-            "src": "/Model shoot/model-1-1200w.webp",
-            "title": "Model shoot 1"
+            "category": "Baby Shoot",
+            "src": "/baby-shoot/1-1200w.webp",
+            "title": "Baby Shoot 1"
         },
         {
             "id": 8,
-            "category": "Weddings",
-            "src": "/Model shoot/model-2-1200w.webp",
-            "title": "Model shoot 2"
+            "category": "Baby Shoot",
+            "src": "/baby-shoot/2-1200w.webp",
+            "title": "Baby Shoot 2"
         },
         {
             "id": 9,
-            "category": "Baby shoot",
-            "src": "/commercial/commercial-1-1200w.webp",
-            "title": "commercial 1"
+            "category": "Baby Shoot",
+            "src": "/baby-shoot/3-1200w.webp",
+            "title": "Baby Shoot 3"
         },
         {
             "id": 10,
-            "category": "Baby shoot",
-            "src": "/commercial/commercial-2-1200w.webp",
-            "title": "commercial 2"
+            "category": "Maternity",
+            "src": "/maternity-shoot/1-1200w.webp",
+            "title": "Maternity 1"
         },
         {
             "id": 11,
-            "category": "Commercial",
-            "src": "/commercial/commercial-1-1200w.webp",
-            "title": "commercial 1"
+            "category": "Maternity",
+            "src": "/maternity-shoot/2-1200w.webp",
+            "title": "Maternity 2"
         },
         {
             "id": 12,
-            "category": "Commercial",
-            "src": "/commercial/commercial-2-1200w.webp",
-            "title": "commercial 2"
+            "category": "Maternity",
+            "src": "/maternity-shoot/3-1200w.webp",
+            "title": "Maternity 3"
+        },
+        {
+            "id": 13,
+            "category": "Birthday",
+            "src": "/birthday-shoot/DSC01557.JPG-1200w.webp",
+            "title": "Birthday 1"
+        },
+        {
+            "id": 14,
+            "category": "Birthday",
+            "src": "/birthday-shoot/DSC01579.JPG-1200w.webp",
+            "title": "Birthday 2"
+        },
+        {
+            "id": 15,
+            "category": "Birthday",
+            "src": "/birthday-shoot/DSC01581.JPG-1200w.webp",
+            "title": "Birthday 3"
+        },
+        {
+            "id": 16,
+            "category": "Events",
+            "src": "/event-shoot/1-1200w.webp",
+            "title": "Events 1"
+        },
+        {
+            "id": 17,
+            "category": "Events",
+            "src": "/event-shoot/2-1200w.webp",
+            "title": "Events 2"
+        },
+        {
+            "id": 30,
+            "category": "Events",
+            "src": "/event-shoot/3-1200w.webp",
+            "title": "Events 3"
+        },
+        {
+            "id": 18,
+            "category": "Wedding Cinematography",
+            "src": "/wedding-cinematography/1-1200w.webp",
+            "title": "Wedding Cinematography 1"
+        },
+        {
+            "id": 19,
+            "category": "Wedding Cinematography",
+            "src": "/wedding-cinematography/2-1200w.webp",
+            "title": "Wedding Cinematography 2"
+        },
+        {
+            "id": 20,
+            "category": "Wedding Cinematography",
+            "src": "/wedding-cinematography/3-1200w.webp",
+            "title": "Wedding Cinematography 3"
+        },
+        {
+            "id": 21,
+            "category": "School Photography",
+            "src": "/school-photography/1-1200w.webp",
+            "title": "School Photography 1"
+        },
+        {
+            "id": 22,
+            "category": "School Photography",
+            "src": "/school-photography/2-1200w.webp",
+            "title": "School Photography 2"
+        },
+        {
+            "id": 23,
+            "category": "School Photography",
+            "src": "/school-photography/3-1200w.webp",
+            "title": "School Photography 3"
+        },
+        {
+            "id": 24,
+            "category": "Drone Coverage",
+            "src": "/drone-coverage/1-1200w.webp",
+            "title": "Drone Coverage 1"
+        },
+        {
+            "id": 25,
+            "category": "Drone Coverage",
+            "src": "/drone-coverage/2-1200w.webp",
+            "title": "Drone Coverage 2"
+        },
+        {
+            "id": 26,
+            "category": "Drone Coverage",
+            "src": "/drone-coverage/3-1200w.webp",
+            "title": "Drone Coverage 3"
+        },
+        {
+            "id": 27,
+            "category": "Album Designing",
+            "src": "/album-designing/1-1200w.webp",
+            "title": "Album Designing 1"
+        },
+        {
+            "id": 28,
+            "category": "Album Designing",
+            "src": "/album-designing/2-1200w.webp",
+            "title": "Album Designing 2"
+        },
+        {
+            "id": 29,
+            "category": "Album Designing",
+            "src": "/album-designing/3-1200w.webp",
+            "title": "Album Designing 3"
         }
     ]
 }

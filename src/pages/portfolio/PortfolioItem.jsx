@@ -2,6 +2,7 @@ import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import content from '../../data/content.json';
 import { buildSrcSet } from '../../utils/responsiveImage';
+import { noDownloadProps, noDownloadStyle } from '../../utils/imageProtection';
 
 const DETAIL_WIDTHS = [480, 800, 1200, 1920];
 
@@ -37,7 +38,8 @@ const PortfolioItem = () => {
                             alt={`${item.title} ${idx+1}`}
                             loading="lazy"
                             decoding="async"
-                            style={{ width: '100%', height: 'auto', objectFit: 'cover' }}
+                            {...noDownloadProps}
+                            style={{ width: '100%', height: 'auto', objectFit: 'cover', ...noDownloadStyle }}
                         />
                     ))}
                 </div>

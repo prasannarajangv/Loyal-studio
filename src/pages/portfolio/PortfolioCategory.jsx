@@ -27,7 +27,6 @@ const PortfolioCategory = () => {
         <section id="portfolio" className="section">
             <div className="container">
                 <div className="portfolio-category-head">
-                    <Link to="/portfolio" className="portfolio-back-link">← Back to all categories</Link>
                     <h2>{readable || 'Portfolio'}</h2>
                     <p>Browse a curated selection of work from this collection and step into the atmosphere of each session.</p>
                 </div>

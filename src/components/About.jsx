@@ -1,6 +1,7 @@
 import React from 'react';
 import content from '../data/content.json';
 import { buildSrcSet } from '../utils/responsiveImage';
+import { noDownloadProps, noDownloadStyle } from '../utils/imageProtection';
 
 const ABOUT_WIDTHS = [480, 800, 1200];
 
@@ -17,6 +18,8 @@ const About = () => {
                             alt="Photographer"
                             loading="lazy"
                             decoding="async"
+                            {...noDownloadProps}
+                            style={noDownloadStyle}
                         />
                     </div>
                     <div className="about-copy">

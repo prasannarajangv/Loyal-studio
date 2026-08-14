@@ -264,14 +264,26 @@ nav > div {
 /* Portfolio Item Styles */
 .portfolio-item {
   border-radius: 8px;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.portfolio-item:hover .portfolio-overlay {
+.portfolio-item:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 0 0 2px var(--color-accent), 0 20px 45px rgba(0, 0, 0, 0.45);
+}
+
+.portfolio-item:hover .portfolio-overlay,
+.portfolio-item:hover .overlay {
   opacity: 1 !important;
 }
 
 .portfolio-item img {
   border-radius: 8px;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.portfolio-item:hover img {
+  transform: scale(1.08);
 }
 
 /* Portfolio Filters */
@@ -289,6 +301,27 @@ nav > div {
 
 .filter-button:active {
   transform: scale(0.98);
+}
+
+/* Portfolio Grid: 3 columns on large screens, 2 on tablet/mobile instead of
+   collapsing to a single tall column (was forcing a very long scroll). */
+.portfolio-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+@media (max-width: 768px) {
+  .portfolio-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 420px) {
+  .portfolio-grid {
+    gap: 0.6rem;
+  }
 }
 
 /* Responsive Design - Tablet (768px and below) */

@@ -24,12 +24,15 @@ const FloatingContact = () => {
     return (
         <div style={{
             position: 'fixed',
-            bottom: '2rem',
-            right: '2rem',
+            bottom: 'calc(clamp(1rem, 4vw, 2rem) + env(safe-area-inset-bottom))',
+            right: 'calc(clamp(1rem, 4vw, 2rem) + env(safe-area-inset-right))',
             display: 'flex',
             flexDirection: 'column',
-            gap: '1rem',
-            zIndex: 9999
+            gap: 'clamp(0.6rem, 2vw, 1rem)',
+            // Below the navbar (1000) and every lightbox/modal (1000-2001) so
+            // enlarged photos and menus always appear above these buttons,
+            // never the other way around.
+            zIndex: 500
         }}>
             {contactLinks.map((item, index) => (
                 <a
@@ -39,8 +42,8 @@ const FloatingContact = () => {
                     rel="noopener noreferrer"
                     title={item.label}
                     style={{
-                        width: '3.5rem',
-                        height: '3.5rem',
+                        width: 'clamp(2.75rem, 8vw, 3.5rem)',
+                        height: 'clamp(2.75rem, 8vw, 3.5rem)',
                         borderRadius: '50%',
                         background: item.color,
                         color: 'white',

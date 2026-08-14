@@ -1,8 +1,9 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import content from '../data/content.json';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { buildSrcSet } from '../utils/responsiveImage';
+import { noDownloadProps, noDownloadStyle } from '../utils/imageProtection';
 
 const THUMB_WIDTHS = [480, 800, 1200];
 const LIGHTBOX_WIDTHS = [800, 1200, 1920, 2400];
@@ -47,146 +48,105 @@ const Portfolio = ({ portfolioCategory, setPortfolioCategory }) => {
     // If `portfolioCategory` prop provided, filter by it; otherwise show all
     const filteredItems = portfolioCategory ? content.portfolio.filter(item => item.category === portfolioCategory) : content.portfolio;
 
-    const scrollerRef = useRef(null);
-
-    const scrollNext = () => {
-        if (!scrollerRef.current) return;
-        scrollerRef.current.scrollBy({ left: scrollerRef.current.clientWidth * 0.8, behavior: 'smooth' });
-    };
-
-    const scrollPrev = () => {
-        if (!scrollerRef.current) return;
-        scrollerRef.current.scrollBy({ left: -scrollerRef.current.clientWidth * 0.8, behavior: 'smooth' });
-    };
-
     return (
         <section id="portfolio" className="section" style={{ background: 'var(--color-bg)' }}>
             <div className="container">
-                <h2 style={{ textAlign: 'center', marginBottom: '3rem', fontSize: '2.5rem' }}>Our Works</h2>
+                {/* "Our Works" heading + full category filter bar only make sense on
+                    the unfiltered "all categories" view. On a single-category page
+                    (PortfolioCategory already shows its own heading/description),
+                    repeating every category here as buttons is redundant and reads
+                    as if picking a category just leads to another all-categories page. */}
+                {!portfolioCategory && (
+                    <>
+                        <h2 style={{ textAlign: 'center', marginBottom: '3rem', fontSize: '2.5rem' }}>Our Works</h2>
 
-                {/* Filters */}
-                <div style={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    flexWrap: 'wrap',
-                    gap: '1rem',
-                    marginBottom: '3rem'
-                }}>
-                    {categories.map(cat => (
-                        <button
-                            key={cat}
-                            onClick={() => {
-                                if (typeof setPortfolioCategory === 'function') {
-                                    setPortfolioCategory(cat);
-                                } else {
-                                    navigate(`/portfolio/${slug(cat)}`);
-                                }
-                            }}
-                            style={{
-                                background: 'transparent',
-                                border: 'none',
-                                borderBottom: portfolioCategory === cat ? '2px solid var(--color-text)' : '2px solid transparent',
-                                padding: '0.5rem 1rem',
-                                cursor: 'pointer',
-                                fontFamily: 'var(--font-body)',
-                                fontSize: '1rem',
-                                color: portfolioCategory === cat ? 'var(--color-text)' : 'var(--color-dark-gray)',
-                                transition: 'all 0.3s ease'
-                            }}
-                        >
-                            {cat}
-                        </button>
-                    ))}
-                </div>
-
-                {/* Grid or horizontal scroller for category view */}
-                {portfolioCategory ? (
-                    <div style={{ position: 'relative' }}>
-                        <button onClick={scrollPrev} style={{ position: 'absolute', left: 0, top: '50%', transform: 'translateY(-50%)', zIndex: 2, background: 'rgba(0,0,0,0.4)', border: 'none', color: '#fff', padding: '0.6rem 0.8rem', cursor: 'pointer' }}>&lsaquo;</button>
-                        <div ref={scrollerRef} style={{ display: 'flex', gap: '1.5rem', overflowX: 'auto', padding: '1rem 2rem', scrollSnapType: 'x mandatory', WebkitOverflowScrolling: 'touch' }}>
-                            {filteredItems.map(item => (
-                                <div key={item.id} style={{ minWidth: '70vw', maxWidth: '900px', scrollSnapAlign: 'center', position: 'relative', cursor: 'pointer' }} className="portfolio-item" onClick={() => openLightbox(item)}>
-                                    <img
-                                        src={Array.isArray(item.src) ? item.src[0] : item.src}
-                                        srcSet={buildSrcSet(Array.isArray(item.src) ? item.src[0] : item.src, THUMB_WIDTHS)}
-                                        sizes="70vw"
-                                        alt={item.title}
-                                        loading="lazy"
-                                        decoding="async"
-                                        style={{ width: '100%', height: '60vh', objectFit: 'cover', borderRadius: 8 }}
-                                    />
-                                    <div style={{ position: 'absolute', left: '2rem', bottom: '2rem', color: '#fff' }}>
-                                        <h3 style={{ margin: 0 }}>{item.title}</h3>
-                                        <div style={{ textTransform: 'uppercase', fontSize: '0.8rem' }}>{item.category}</div>
-                                    </div>
-                                </div>
+                        <div style={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                            flexWrap: 'wrap',
+                            gap: '1rem',
+                            marginBottom: '3rem'
+                        }}>
+                            {categories.map(cat => (
+                                <button
+                                    key={cat}
+                                    onClick={() => {
+                                        if (typeof setPortfolioCategory === 'function') {
+                                            setPortfolioCategory(cat);
+                                        } else {
+                                            navigate(`/portfolio/${slug(cat)}`);
+                                        }
+                                    }}
+                                    style={{
+                                        background: 'transparent',
+                                        border: 'none',
+                                        borderBottom: portfolioCategory === cat ? '2px solid var(--color-text)' : '2px solid transparent',
+                                        padding: '0.5rem 1rem',
+                                        cursor: 'pointer',
+                                        fontFamily: 'var(--font-body)',
+                                        fontSize: '1rem',
+                                        color: portfolioCategory === cat ? 'var(--color-text)' : 'var(--color-dark-gray)',
+                                        transition: 'all 0.3s ease'
+                                    }}
+                                >
+                                    {cat}
+                                </button>
                             ))}
                         </div>
-                        <button onClick={scrollNext} style={{ position: 'absolute', right: 0, top: '50%', transform: 'translateY(-50%)', zIndex: 2, background: 'rgba(0,0,0,0.4)', border: 'none', color: '#fff', padding: '0.6rem 0.8rem', cursor: 'pointer' }}>&rsaquo;</button>
-                    </div>
-                ) : (
-                    <motion.div
-                        layout
-                        style={{
-                            display: 'grid',
-                            gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
-                            gap: '1.5rem'
-                        }}
-                    >
-                        <AnimatePresence>
-                            {filteredItems.map(item => (
-                                <motion.div
-                                    layout
-                                    initial={{ opacity: 0 }}
-                                    animate={{ opacity: 1 }}
-                                    exit={{ opacity: 0 }}
-                                    key={item.id}
-                                    style={{ position: 'relative', cursor: 'pointer', overflow: 'hidden', aspectRatio: '3/2' }}
-                                    className="portfolio-item"
-                                    onClick={() => openLightbox(item)}
-                                >
-                                    <img
-                                        src={Array.isArray(item.src) ? item.src[0] : item.src}
-                                        srcSet={buildSrcSet(Array.isArray(item.src) ? item.src[0] : item.src, THUMB_WIDTHS)}
-                                        sizes="(max-width: 600px) 100vw, 300px"
-                                        alt={item.title}
-                                        loading="lazy"
-                                        decoding="async"
-                                        style={{
-                                            width: '100%',
-                                            height: '100%',
-                                            objectFit: 'cover',
-                                            transition: 'transform 0.5s ease'
-                                        }}
-                                    />
-                                    <div className="overlay" style={{
-                                        position: 'absolute',
-                                        top: 0,
-                                        left: 0,
+                    </>
+                )}
+
+                {/* Always a plain vertical-flowing grid (no horizontal scroller) —
+                    photos stack in rows top-to-bottom, same layout whether
+                    viewing all categories or one filtered category. */}
+                <motion.div
+                    layout
+                    className="portfolio-grid"
+                >
+                    <AnimatePresence>
+                        {filteredItems.map((item, index) => (
+                            <motion.div
+                                layout
+                                initial={{ opacity: 0, y: 28 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                viewport={{ once: true, amount: 0.2 }}
+                                exit={{ opacity: 0 }}
+                                transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1], delay: (index % 6) * 0.06 }}
+                                key={item.id}
+                                style={{ position: 'relative', cursor: 'pointer', overflow: 'hidden', aspectRatio: '3/2' }}
+                                className="portfolio-item"
+                                onClick={() => openLightbox(item)}
+                            >
+                                <img
+                                    src={Array.isArray(item.src) ? item.src[0] : item.src}
+                                    srcSet={buildSrcSet(Array.isArray(item.src) ? item.src[0] : item.src, THUMB_WIDTHS)}
+                                    sizes="(max-width: 600px) 50vw, 300px"
+                                    alt={item.title}
+                                    loading="lazy"
+                                    decoding="async"
+                                    {...noDownloadProps}
+                                    style={{
                                         width: '100%',
                                         height: '100%',
-                                        background: 'rgba(0,0,0,0.4)',
-                                        display: 'flex',
-                                        flexDirection: 'column',
-                                        justifyContent: 'center',
-                                        alignItems: 'center',
-                                        opacity: 0,
-                                        transition: 'opacity 0.3s ease',
-                                        color: 'white'
-                                    }}>
-                                        <h3 style={{ marginBottom: '0.5rem' }}>{item.title}</h3>
-                                        <span style={{ fontSize: '0.875rem', textTransform: 'uppercase', letterSpacing: '1px' }}>{item.category}</span>
-                                        {Array.isArray(item.src) && item.src.length > 1 && (
-                                            <span style={{ marginTop: '0.5rem', fontSize: '0.75rem', background: 'rgba(255,255,255,0.2)', padding: '0.2rem 0.5rem', borderRadius: '4px' }}>
-                                                View {item.src.length} Photos
-                                            </span>
-                                        )}
-                                    </div>
-                                </motion.div>
-                            ))}
-                        </AnimatePresence>
-                    </motion.div>
-                )}
+                                        objectFit: 'cover',
+                                        transition: 'transform 0.5s ease',
+                                        ...noDownloadStyle
+                                    }}
+                                />
+                                <div className="overlay" style={{
+                                    position: 'absolute',
+                                    top: 0,
+                                    left: 0,
+                                    width: '100%',
+                                    height: '100%',
+                                    background: 'rgba(0,0,0,0.4)',
+                                    opacity: 0,
+                                    transition: 'opacity 0.3s ease'
+                                }} />
+                            </motion.div>
+                        ))}
+                    </AnimatePresence>
+                </motion.div>
             </div>
             {/* Lightbox */}
             <AnimatePresence>
@@ -277,10 +237,12 @@ const Portfolio = ({ portfolioCategory, setPortfolioCategory }) => {
                                 sizes="90vw"
                                 alt={selectedItem.title}
                                 decoding="async"
+                                {...noDownloadProps}
                                 style={{
                                     maxWidth: '90%',
                                     maxHeight: '90vh',
-                                    objectFit: 'contain'
+                                    objectFit: 'contain',
+                                    ...noDownloadStyle
                                 }}
                                 onClick={(e) => e.stopPropagation()} // Prevent closing when clicking image
                             />
@@ -288,15 +250,6 @@ const Portfolio = ({ portfolioCategory, setPortfolioCategory }) => {
                     </motion.div>
                 )}
             </AnimatePresence>
-
-            <style>{`
-        .portfolio-item:hover img {
-          transform: scale(1.05);
-        }
-        .portfolio-item:hover .overlay {
-          opacity: 1;
-        }
-      `}</style>
         </section>
     );
 };

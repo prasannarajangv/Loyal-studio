@@ -5,6 +5,7 @@ import About from '../components/About';
 import content from '../data/content.json';
 import { motion, AnimatePresence } from 'framer-motion';
 import { buildSrcSet } from '../utils/responsiveImage';
+import { noDownloadProps, noDownloadStyle } from '../utils/imageProtection';
 
 const THUMB_WIDTHS = [480, 800, 1200];
 const LIGHTBOX_WIDTHS = [800, 1200, 1920, 2400];
@@ -49,26 +50,20 @@ const Home = () => {
                     <h2 style={{ textAlign: 'center', marginBottom: '3rem', fontSize: '2.5rem', fontFamily: 'var(--font-heading)' }}>Our Works</h2>
 
                     {/* Portfolio Grid */}
-                    <motion.div
-                        layout
-                        style={{
-                            display: 'grid',
-                            gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
-                            gap: '1.5rem'
-                        }}
-                    >
+                    <motion.div layout className="portfolio-grid">
                         <AnimatePresence>
-                            {content.portfolio.map(item => (
+                            {content.portfolio.map((item, index) => (
                                 <motion.div
                                     layout
-                                    initial={{ opacity: 0 }}
-                                    animate={{ opacity: 1 }}
+                                    initial={{ opacity: 0, y: 28 }}
+                                    whileInView={{ opacity: 1, y: 0 }}
+                                    viewport={{ once: true, amount: 0.15 }}
                                     exit={{ opacity: 0 }}
+                                    transition={{ duration: 0.5, ease: [0.4, 0, 0.2, 1], delay: (index % 6) * 0.06 }}
                                     key={item.id}
                                     style={{ position: 'relative', cursor: 'pointer', overflow: 'hidden', aspectRatio: '3/2' }}
                                     className="portfolio-item"
                                     onClick={() => openLightbox(item)}
-                                    whileHover={{ scale: 1.02 }}
                                 >
                                     <img
                                         src={Array.isArray(item.src) ? item.src[0] : item.src}
@@ -77,11 +72,13 @@ const Home = () => {
                                         alt={item.title}
                                         loading="lazy"
                                         decoding="async"
+                                        {...noDownloadProps}
                                         style={{
                                             width: '100%',
                                             height: '100%',
                                             objectFit: 'cover',
-                                            transition: 'transform 0.5s ease'
+                                            transition: 'transform 0.5s ease',
+                                            ...noDownloadStyle
                                         }}
                                     />
                                     <div className="portfolio-overlay" style={{
@@ -91,16 +88,9 @@ const Home = () => {
                                         width: '100%',
                                         height: '100%',
                                         background: 'rgba(0, 0, 0, 0.6)',
-                                        display: 'flex',
-                                        flexDirection: 'column',
-                                        justifyContent: 'flex-end',
-                                        padding: '2rem',
                                         opacity: 0,
                                         transition: 'opacity 0.3s ease'
-                                    }}>
-                                        <h3 style={{ color: 'white', margin: 0, marginBottom: '0.5rem' }}>{item.title}</h3>
-                                        <div style={{ textTransform: 'uppercase', fontSize: '0.8rem', color: 'var(--color-accent)' }}>{item.category}</div>
-                                    </div>
+                                    }} />
                                 </motion.div>
                             ))}
                         </AnimatePresence>
@@ -164,10 +154,12 @@ const Home = () => {
                                 sizes="90vw"
                                 alt={selectedItem.title}
                                 decoding="async"
+                                {...noDownloadProps}
                                 style={{
                                     maxWidth: '100%',
                                     maxHeight: '100%',
-                                    objectFit: 'contain'
+                                    objectFit: 'contain',
+                                    ...noDownloadStyle
                                 }}
                             />
 

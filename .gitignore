@@ -6,7 +6,3 @@ build/
 *.log
 .vercel
 .env*
-
-# Generated responsive image tiers (built from image-sources/ by
-# generate-image-variants.mjs via the predev/prebuild npm scripts)
-public/**/*.webp

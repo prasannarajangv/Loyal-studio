@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import content from '../data/content.json';
 import { motion, AnimatePresence } from 'framer-motion';
 import { buildSrcSet } from '../utils/responsiveImage';
+import { noDownloadProps, noDownloadStyle } from '../utils/imageProtection';
 
 const HERO_WIDTHS = [800, 1200, 1920];
 
@@ -70,6 +71,7 @@ const Hero = () => {
                         loading={currentIndex === 0 ? 'eager' : 'lazy'}
                         fetchPriority={currentIndex === 0 ? 'high' : 'auto'}
                         decoding={currentIndex === 0 ? 'sync' : 'async'}
+                        {...noDownloadProps}
                         initial={{ x: '100%' }}
                         animate={{ x: 0 }}
                         exit={{ x: '-100%' }}
@@ -82,7 +84,8 @@ const Hero = () => {
                             height: '100%',
                             objectFit: 'cover',
                             objectPosition: 'center',
-                            filter: 'brightness(0.35)'
+                            filter: 'brightness(0.35)',
+                            ...noDownloadStyle
                         }}
                     />
                 </AnimatePresence>
