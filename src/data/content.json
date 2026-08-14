@@ -12,88 +12,88 @@
         "title": "Capturing Life's Essence",
         "subtitle": "Professional Photography & Visual Artistry",
         "images": [
-            "/wedding/IMG_1437.JPG",
-            "/candid/6Q4A2262.JPG",
-            "/commercial/DJI_20251209103159_0465_D.JPG",
-            "/wedding/IMG_1438.JPG"
+            "/wedding/wedding-1.webp",
+            "/candid/candid-1.webp",
+            "/commercial/commercial-1.webp",
+            "/wedding/wedding-2.webp"
         ]
     },
     "about": {
         "title": "The Artist",
-        "image": "/IMG_E8926.JPG",
+        "image": "/IMG_E8926.webp",
         "text": "I am a visual artist and photographer with a passion for storytelling. My work spans across weddings, commercial projects, and branding design. I believe in capturing the raw emotion and beauty of every moment, turning fleeting seconds into timeless memories. With years of experience and a keen eye for detail, I strive to deliver images that are not just seen, but felt."
     },
     "portfolio": [
         {
             "id": 1,
             "category": "Potraits",
-            "src": "/wedding/IMG_1437.JPG",
+            "src": "/wedding/wedding-1.webp",
             "title": "wedding 1"
         },
         {
             "id": 2,
             "category": "Potraits",
-            "src": "/wedding/IMG_1438.JPG",
+            "src": "/wedding/wedding-2.webp",
             "title": "wedding 2"
         },
         {
             "id": 3,
             "category": "Engagements",
-            "src": "/candid/6Q4A2262.JPG",
+            "src": "/candid/candid-1.webp",
             "title": "candid 1"
         },
         {
             "id": 4,
             "category": "Engagements",
-            "src": "/candid/6Q4A3271.JPG",
+            "src": "/candid/candid-2.webp",
             "title": "candid 2"
         },
         {
             "id": 5,
             "category": "Pre-weddings",
-            "src": "/baby shoot/22 (1).jpg",
+            "src": "/baby shoot/baby-1.webp",
             "title": "Baby Shoot 1"
         },
         {
             "id": 6,
             "category": "Pre-weddings",
-            "src": "/baby shoot/00.jpg",
+            "src": "/baby shoot/baby-2.webp",
             "title": "Baby Shoot 2"
         },
         {
             "id": 7,
             "category": "Weddings",
-            "src": "/Model shoot/DSC00608 copy.jpg",
+            "src": "/Model shoot/model-1.webp",
             "title": "Model shoot 1"
         },
         {
             "id": 8,
             "category": "Weddings",
-            "src": "/Model shoot/DSC09134 copy.jpg",
+            "src": "/Model shoot/model-2.webp",
             "title": "Model shoot 2"
         },
         {
             "id": 9,
             "category": "Baby shoot",
-            "src": "/commercial/DJI_20251209103159_0465_D.JPG",
+            "src": "/commercial/commercial-1.webp",
             "title": "commercial 1"
         },
         {
             "id": 10,
             "category": "Baby shoot",
-            "src": "/commercial/DJI_20251209112716_0490_D.JPG",
+            "src": "/commercial/commercial-2.webp",
             "title": "commercial 2"
         },
         {
             "id": 11,
             "category": "Commercial",
-            "src": "/commercial/DJI_20251209103159_0465_D.JPG",
+            "src": "/commercial/commercial-1.webp",
             "title": "commercial 1"
         },
         {
             "id": 12,
             "category": "Commercial",
-            "src": "/commercial/DJI_20251209112716_0490_D.JPG",
+            "src": "/commercial/commercial-2.webp",
             "title": "commercial 2"
         }
     ]
