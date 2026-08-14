@@ -4,10 +4,13 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "predev": "node generate-image-variants.mjs",
     "dev": "vite",
+    "prebuild": "node generate-image-variants.mjs",
     "build": "vite build",
     "preview": "vite preview",
-    "compress": "node compress-images.js"
+    "compress": "node compress-images.js",
+    "generate-images": "node generate-image-variants.mjs"
   },
   "dependencies": {
     "framer-motion": "^10.18.0",

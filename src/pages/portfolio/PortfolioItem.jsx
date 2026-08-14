@@ -1,6 +1,9 @@
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
 import content from '../../data/content.json';
+import { buildSrcSet } from '../../utils/responsiveImage';
+
+const DETAIL_WIDTHS = [480, 800, 1200, 1920];
 
 const PortfolioItem = () => {
     const { id, category } = useParams();
@@ -26,7 +29,16 @@ const PortfolioItem = () => {
                 <p style={{ marginBottom: '1rem', textTransform: 'uppercase' }}>{item.category}</p>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1rem' }}>
                     {images.map((src, idx) => (
-                        <img key={idx} src={src} alt={`${item.title} ${idx+1}`} style={{ width: '100%', height: 'auto', objectFit: 'cover' }} />
+                        <img
+                            key={idx}
+                            src={src}
+                            srcSet={buildSrcSet(src, DETAIL_WIDTHS)}
+                            sizes="(max-width: 600px) 100vw, 300px"
+                            alt={`${item.title} ${idx+1}`}
+                            loading="lazy"
+                            decoding="async"
+                            style={{ width: '100%', height: 'auto', objectFit: 'cover' }}
+                        />
                     ))}
                 </div>
             </div>

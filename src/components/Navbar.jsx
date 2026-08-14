@@ -1,29 +1,80 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Menu, X } from 'lucide-react';
 import content from '../data/content.json';
 import { useNavigate } from 'react-router-dom';
+
+const LinkItem = ({ link, isMobile = false, onNavigate }) => (
+    <span
+        onClick={() => onNavigate(link.path)}
+        onMouseEnter={(e) => !isMobile && (e.target.style.opacity = '1')}
+        onMouseLeave={(e) => !isMobile && (e.target.style.opacity = '0.85')}
+        style={{
+            cursor: 'pointer',
+            textTransform: 'uppercase',
+            fontSize: isMobile ? '0.9rem' : 'clamp(0.65rem, 1.5vw, 0.85rem)',
+            letterSpacing: '2px',
+            fontFamily: 'var(--font-heading)',
+            margin: isMobile ? '0' : 'clamp(0.5rem, 2vw, 2.5rem)',
+            fontWeight: 500,
+            opacity: 0.85,
+            whiteSpace: 'nowrap',
+            transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+            position: 'relative',
+            paddingBottom: '4px'
+        }}
+        className="nav-link"
+    >
+        {link.title}
+        {!isMobile && (
+            <span style={{
+                position: 'absolute',
+                bottom: 0,
+                left: 0,
+                width: '0%',
+                height: '2px',
+                background: 'var(--color-accent)',
+                transition: 'width 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
+            }} className="nav-underline"></span>
+        )}
+    </span>
+);
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [showDropdown, setShowDropdown] = useState(false);
     const [activeMenu, setActiveMenu] = useState(null);
-    const [scrollY, setScrollY] = useState(0);
+    const navRef = useRef(null);
 
-    // Scroll listener for dynamic navbar transparency
+    // Drive navbar blur/shadow straight on the DOM node via rAF, bypassing
+    // React state/re-render on every scroll pixel (was causing scroll jank
+    // site-wide, since Navbar renders on every page).
     useEffect(() => {
-        const handleScroll = () => {
-            setScrollY(window.scrollY);
+        let ticking = false;
+
+        const applyScrollStyles = () => {
+            ticking = false;
+            const node = navRef.current;
+            if (!node) return;
+            const scrollY = window.scrollY;
+            // Starts subtle, becomes fully opaque after scrolling 100px
+            const navOpacity = Math.min(scrollY / 100, 1);
+            const blurAmount = Math.min(scrollY / 50, 16); // 0px -> 16px over 50px scroll
+            node.style.backdropFilter = `blur(${blurAmount}px)`;
+            node.style.WebkitBackdropFilter = `blur(${blurAmount}px)`;
+            node.style.boxShadow = `0 ${navOpacity * 4}px ${navOpacity * 30}px rgba(0, 0, 0, ${navOpacity * 0.1})`;
         };
 
-        window.addEventListener('scroll', handleScroll);
+        const handleScroll = () => {
+            if (!ticking) {
+                ticking = true;
+                requestAnimationFrame(applyScrollStyles);
+            }
+        };
+
+        applyScrollStyles(); // set initial state (e.g. navigating in mid-scroll)
+        window.addEventListener('scroll', handleScroll, { passive: true });
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
-
-    // Calculate navbar opacity and blur based on scroll position
-    // Starts with subtle dark background, becomes fully opaque after scrolling 100px
-    const navOpacity = Math.min(scrollY / 100, 1);
-    const bgOpacity = 0.08 + (navOpacity * 0.07); // Min 0.08, Max 0.15
-    const blurAmount = Math.min(scrollY / 50, 16); // Increases from 0px to 16px blur over 50px scroll
 
     const categories = [...new Set(content.portfolio.map(item => item.category))];
 
@@ -50,56 +101,20 @@ const Navbar = () => {
         { title: 'Contact', path: '/contact' },
     ];
 
-    const LinkItem = ({ link, isMobile = false }) => (
-        <span
-            onClick={() => navigateTo(link.path)}
-            onMouseEnter={(e) => !isMobile && (e.target.style.opacity = '1')}
-            onMouseLeave={(e) => !isMobile && (e.target.style.opacity = '0.85')}
-            style={{
-                cursor: 'pointer',
-                textTransform: 'uppercase',
-                fontSize: isMobile ? '0.9rem' : 'clamp(0.65rem, 1.5vw, 0.85rem)',
-                letterSpacing: '2px',
-                fontFamily: 'var(--font-heading)',
-                margin: isMobile ? '0' : 'clamp(0.5rem, 2vw, 2.5rem)',
-                fontWeight: 500,
-                opacity: 0.85,
-                whiteSpace: 'nowrap',
-                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-                position: 'relative',
-                paddingBottom: '4px'
-            }}
-            className="nav-link"
-        >
-            {link.title}
-            {!isMobile && (
-                <span style={{
-                    position: 'absolute',
-                    bottom: 0,
-                    left: 0,
-                    width: '0%',
-                    height: '2px',
-                    background: 'var(--color-accent)',
-                    transition: 'width 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
-                }} className="nav-underline"></span>
-            )}
-        </span>
-    );
-
     return (
-        <nav style={{
+        <nav ref={navRef} style={{
             position: 'fixed',
             top: 0,
             left: 0,
             right: 0,
             background: 'transparent',
-            backdropFilter: `blur(${blurAmount}px)`,
-            WebkitBackdropFilter: `blur(${blurAmount}px)`,
+            backdropFilter: 'blur(0px)',
+            WebkitBackdropFilter: 'blur(0px)',
             zIndex: 1000,
             borderBottom: 'none',
             color: 'white',
             width: '100%',
-            boxShadow: `0 ${navOpacity * 4}px ${navOpacity * 30}px rgba(0, 0, 0, ${navOpacity * 0.1})`,
+            boxShadow: '0 0px 0px rgba(0, 0, 0, 0)',
             transition: 'all 0.15s ease-out'
         }}>
             <div style={{
@@ -120,7 +135,7 @@ const Navbar = () => {
                     gap: 'clamp(0.5rem, 1.5vw, 2rem)',
                     flex: 1
                 }}>
-                    {leftLinks.map((link) => <LinkItem key={link.title} link={link} />)}
+                    {leftLinks.map((link) => <LinkItem key={link.title} link={link} onNavigate={navigateTo} />)}
                 </div>
 
                 {/* Centered Logo */}
@@ -249,7 +264,7 @@ const Navbar = () => {
                         )}
                     </div>
 
-                    {rightLinks.map((link) => <LinkItem key={link.title} link={link} />)}
+                    {rightLinks.map((link) => <LinkItem key={link.title} link={link} onNavigate={navigateTo} />)}
                 </div>
 
                 {/* Mobile Menu Button */}

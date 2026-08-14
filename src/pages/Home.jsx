@@ -4,6 +4,10 @@ import Portfolio from '../components/Portfolio';
 import About from '../components/About';
 import content from '../data/content.json';
 import { motion, AnimatePresence } from 'framer-motion';
+import { buildSrcSet } from '../utils/responsiveImage';
+
+const THUMB_WIDTHS = [480, 800, 1200];
+const LIGHTBOX_WIDTHS = [800, 1200, 1920, 2400];
 
 const Home = () => {
     const [selectedItem, setSelectedItem] = useState(null);
@@ -68,8 +72,11 @@ const Home = () => {
                                 >
                                     <img
                                         src={Array.isArray(item.src) ? item.src[0] : item.src}
+                                        srcSet={buildSrcSet(Array.isArray(item.src) ? item.src[0] : item.src, THUMB_WIDTHS)}
+                                        sizes="(max-width: 600px) 100vw, 300px"
                                         alt={item.title}
                                         loading="lazy"
+                                        decoding="async"
                                         style={{
                                             width: '100%',
                                             height: '100%',
@@ -153,7 +160,10 @@ const Home = () => {
                         }}>
                             <img
                                 src={Array.isArray(selectedItem.src) ? selectedItem.src[currentImageIndex] : selectedItem.src}
+                                srcSet={buildSrcSet(Array.isArray(selectedItem.src) ? selectedItem.src[currentImageIndex] : selectedItem.src, LIGHTBOX_WIDTHS)}
+                                sizes="90vw"
                                 alt={selectedItem.title}
+                                decoding="async"
                                 style={{
                                     maxWidth: '100%',
                                     maxHeight: '100%',

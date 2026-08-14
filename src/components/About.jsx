@@ -1,5 +1,8 @@
 import React from 'react';
 import content from '../data/content.json';
+import { buildSrcSet } from '../utils/responsiveImage';
+
+const ABOUT_WIDTHS = [480, 800, 1200];
 
 const About = () => {
     return (
@@ -7,7 +10,14 @@ const About = () => {
             <div className="container">
                 <div className="about-card">
                     <div className="about-image-wrap">
-                        <img src={content.about.image} alt="Photographer" loading="lazy" />
+                        <img
+                            src={content.about.image}
+                            srcSet={buildSrcSet(content.about.image, ABOUT_WIDTHS)}
+                            sizes="(max-width: 768px) 100vw, 480px"
+                            alt="Photographer"
+                            loading="lazy"
+                            decoding="async"
+                        />
                     </div>
                     <div className="about-copy">
                         <span className="about-badge">About Loyal Studio</span>

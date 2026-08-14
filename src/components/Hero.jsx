@@ -1,10 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import content from '../data/content.json';
 import { motion, AnimatePresence } from 'framer-motion';
+import { buildSrcSet } from '../utils/responsiveImage';
+
+const HERO_WIDTHS = [800, 1200, 1920];
 
 const Hero = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
-    const [scrollY, setScrollY] = useState(0);
+    // Parallax is applied to this plain wrapper (not the framer-motion slide
+    // below) so direct DOM mutation never fights framer-motion's own
+    // ownership of `transform` on the animated slide.
+    const parallaxRef = useRef(null);
 
     useEffect(() => {
         const timer = setInterval(() => {
@@ -13,19 +19,31 @@ const Hero = () => {
         return () => clearInterval(timer);
     }, []);
 
-    // Track scroll position for parallax effect
+    // Drive the parallax transform straight on the DOM node via rAF, bypassing
+    // React state/re-render on every scroll pixel (was causing scroll jank).
     useEffect(() => {
-        const handleScroll = () => {
-            setScrollY(window.scrollY);
+        let ticking = false;
+
+        const applyParallax = () => {
+            ticking = false;
+            const node = parallaxRef.current;
+            if (!node) return;
+            const isMobile = window.innerWidth < 768;
+            const offset = window.scrollY * (isMobile ? 0.3 : 0.5);
+            node.style.transform = `translateY(${offset}px)`;
         };
 
-        window.addEventListener('scroll', handleScroll);
+        const handleScroll = () => {
+            if (!ticking) {
+                ticking = true;
+                requestAnimationFrame(applyParallax);
+            }
+        };
+
+        applyParallax(); // set initial offset (e.g. navigating in mid-scroll)
+        window.addEventListener('scroll', handleScroll, { passive: true });
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
-
-    // Calculate parallax offset (reduced on mobile for better performance)
-    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
-    const parallaxOffset = isMobile ? scrollY * 0.3 : scrollY * 0.5;
 
     return (
         <section id="home" style={{
@@ -41,29 +59,34 @@ const Hero = () => {
             paddingTop: 0
         }}>
             {/* Background Image Slider */}
-            <AnimatePresence initial={false}>
-                <motion.div
-                    key={currentIndex}
-                    initial={{ x: '100%' }}
-                    animate={{ x: 0 }}
-                    exit={{ x: '-100%' }}
-                    transition={{ duration: 1, ease: 'easeInOut' }}
-                    style={{
-                        position: 'absolute',
-                        top: 0,
-                        left: 0,
-                        width: '100%',
-                        height: '100%',
-                        backgroundImage: `url(${content.hero.images[currentIndex]})`,
-                        backgroundSize: 'cover',
-                        backgroundPosition: 'center',
-                        filter: 'brightness(0.35)',
-                        zIndex: -1,
-                        transform: `translateY(${parallaxOffset}px)`,
-                        transition: 'transform 0.1s ease-out'
-                    }}
-                />
-            </AnimatePresence>
+            <div ref={parallaxRef} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: -1, willChange: 'transform' }}>
+                <AnimatePresence initial={false}>
+                    <motion.img
+                        key={currentIndex}
+                        src={content.hero.images[currentIndex]}
+                        srcSet={buildSrcSet(content.hero.images[currentIndex], HERO_WIDTHS)}
+                        sizes="100vw"
+                        alt=""
+                        loading={currentIndex === 0 ? 'eager' : 'lazy'}
+                        fetchPriority={currentIndex === 0 ? 'high' : 'auto'}
+                        decoding={currentIndex === 0 ? 'sync' : 'async'}
+                        initial={{ x: '100%' }}
+                        animate={{ x: 0 }}
+                        exit={{ x: '-100%' }}
+                        transition={{ duration: 1, ease: 'easeInOut' }}
+                        style={{
+                            position: 'absolute',
+                            top: 0,
+                            left: 0,
+                            width: '100%',
+                            height: '100%',
+                            objectFit: 'cover',
+                            objectPosition: 'center',
+                            filter: 'brightness(0.35)'
+                        }}
+                    />
+                </AnimatePresence>
+            </div>
 
             {/* Overlay to improve text contrast during image transitions */}
             <div style={{

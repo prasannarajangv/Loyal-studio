@@ -2,6 +2,10 @@ import React, { useState, useRef } from 'react';
 import content from '../data/content.json';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link, useNavigate } from 'react-router-dom';
+import { buildSrcSet } from '../utils/responsiveImage';
+
+const THUMB_WIDTHS = [480, 800, 1200];
+const LIGHTBOX_WIDTHS = [800, 1200, 1920, 2400];
 
 const Portfolio = ({ portfolioCategory, setPortfolioCategory }) => {
     const [selectedItem, setSelectedItem] = useState(null); // For Lightbox
@@ -102,7 +106,15 @@ const Portfolio = ({ portfolioCategory, setPortfolioCategory }) => {
                         <div ref={scrollerRef} style={{ display: 'flex', gap: '1.5rem', overflowX: 'auto', padding: '1rem 2rem', scrollSnapType: 'x mandatory', WebkitOverflowScrolling: 'touch' }}>
                             {filteredItems.map(item => (
                                 <div key={item.id} style={{ minWidth: '70vw', maxWidth: '900px', scrollSnapAlign: 'center', position: 'relative', cursor: 'pointer' }} className="portfolio-item" onClick={() => openLightbox(item)}>
-                                    <img src={Array.isArray(item.src) ? item.src[0] : item.src} alt={item.title} style={{ width: '100%', height: '60vh', objectFit: 'cover', borderRadius: 8 }} />
+                                    <img
+                                        src={Array.isArray(item.src) ? item.src[0] : item.src}
+                                        srcSet={buildSrcSet(Array.isArray(item.src) ? item.src[0] : item.src, THUMB_WIDTHS)}
+                                        sizes="70vw"
+                                        alt={item.title}
+                                        loading="lazy"
+                                        decoding="async"
+                                        style={{ width: '100%', height: '60vh', objectFit: 'cover', borderRadius: 8 }}
+                                    />
                                     <div style={{ position: 'absolute', left: '2rem', bottom: '2rem', color: '#fff' }}>
                                         <h3 style={{ margin: 0 }}>{item.title}</h3>
                                         <div style={{ textTransform: 'uppercase', fontSize: '0.8rem' }}>{item.category}</div>
@@ -135,7 +147,11 @@ const Portfolio = ({ portfolioCategory, setPortfolioCategory }) => {
                                 >
                                     <img
                                         src={Array.isArray(item.src) ? item.src[0] : item.src}
+                                        srcSet={buildSrcSet(Array.isArray(item.src) ? item.src[0] : item.src, THUMB_WIDTHS)}
+                                        sizes="(max-width: 600px) 100vw, 300px"
                                         alt={item.title}
+                                        loading="lazy"
+                                        decoding="async"
                                         style={{
                                             width: '100%',
                                             height: '100%',
@@ -257,7 +273,10 @@ const Portfolio = ({ portfolioCategory, setPortfolioCategory }) => {
                                 animate={{ opacity: 1, x: 0 }}
                                 exit={{ opacity: 0, x: -20 }}
                                 src={Array.isArray(selectedItem.src) ? selectedItem.src[currentImageIndex] : selectedItem.src}
+                                srcSet={buildSrcSet(Array.isArray(selectedItem.src) ? selectedItem.src[currentImageIndex] : selectedItem.src, LIGHTBOX_WIDTHS)}
+                                sizes="90vw"
                                 alt={selectedItem.title}
+                                decoding="async"
                                 style={{
                                     maxWidth: '90%',
                                     maxHeight: '90vh',
