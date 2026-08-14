@@ -9,7 +9,6 @@
     "prebuild": "node generate-image-variants.mjs",
     "build": "vite build",
     "preview": "vite preview",
-    "compress": "node compress-images.js",
     "generate-images": "node generate-image-variants.mjs"
   },
   "dependencies": {

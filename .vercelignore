@@ -34,6 +34,3 @@ yarn-error.log*
 .DS_Store
 Thumbs.db
 
-# Build scripts
-compress-images.js
-IMAGE_COMPRESSION.md
