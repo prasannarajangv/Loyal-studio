@@ -22,7 +22,7 @@
       ]
     },
     {
-      "source": "/public/**",
+      "source": "/:path*.(jpg|jpeg|png|gif|ico|svg|webp)",
       "headers": [
         {
           "key": "Cache-Control",
