@@ -1,5 +1,5 @@
 import React, { Suspense, lazy } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import FloatingContact from './components/FloatingContact';
@@ -13,9 +13,11 @@ const PortfolioCategory = lazy(() => import('./pages/portfolio/PortfolioCategory
 const PortfolioItem = lazy(() => import('./pages/portfolio/PortfolioItem'));
 
 function App() {
+    const { pathname } = useLocation();
+
     return (
         <div className="app">
-            <FloatingContact />
+            {pathname === '/' && <FloatingContact />}
             <Navbar />
 
             <div className="page-content">

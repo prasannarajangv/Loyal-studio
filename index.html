@@ -3,6 +3,28 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Primary SEO tags (overridden per-route by src/hooks/useSEO.js) -->
+    <title>Loyal Studio Photography </title>
+    <meta name="description" content="Loyal Studio is a professional photography and cinematography studio in Namakkal, Tamil Nadu, specializing in wedding photography, pre-wedding shoots, maternity, baby shoots, events, drone coverage and album designing." />
+    <link rel="canonical" href="https://loyalstudio.in/" />
+    <meta name="robots" content="index, follow" />
+
+    <!-- Open Graph / social sharing -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Loyal Studio" />
+    <meta property="og:title" content="Loyal Studio Photography" />
+    <meta property="og:description" content="Professional wedding, pre-wedding, maternity, baby shoot, event and drone photography based in Namakkal, Tamil Nadu." />
+    <meta property="og:url" content="https://loyalstudio.in/" />
+    <meta property="og:image" content="https://loyalstudio.in/logo-240.webp" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Loyal Studio Photography" />
+    <meta name="twitter:description" content="Professional wedding, pre-wedding, maternity, baby shoot, event and drone photography based in Namakkal, Tamil Nadu." />
+    <meta name="twitter:image" content="https://loyalstudio.in/logo-240.webp" />
+
+    <link rel="icon" type="image/webp" href="/logo-240.webp" />
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Outfit:wght@400;500;700&display=swap" rel="stylesheet">
@@ -14,7 +36,32 @@
       imagesizes="100vw"
       fetchpriority="high"
     >
-    <title>Loyal Studio</title>
+
+    <!-- LocalBusiness structured data for local search / Google Business results -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ProfessionalService",
+      "name": "Loyal Studio",
+      "image": "https://loyalstudio.in/logo-240.webp",
+      "url": "https://loyalstudio.in/",
+      "telephone": "+91-8760302138",
+      "email": "contact@loyalstudio.com",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "44/45, Karupannan Street, near Elite Furniture, S P Pudur, Thillaipuram",
+        "addressLocality": "Namakkal",
+        "addressRegion": "Tamil Nadu",
+        "postalCode": "637001",
+        "addressCountry": "IN"
+      },
+      "sameAs": [
+        "https://www.instagram.com/loyal_studi0?igsh=MXdtNnY1b3ZtdDFr",
+        "https://www.youtube.com/@loyalstudioo"
+      ],
+      "priceRange": "$$"
+    }
+    </script>
   </head>
   <body>
     <div id="root"></div>

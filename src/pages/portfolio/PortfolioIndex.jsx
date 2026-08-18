@@ -1,10 +1,17 @@
 import React from 'react';
 import content from '../../data/content.json';
 import { Link } from 'react-router-dom';
+import { useSEO } from '../../hooks/useSEO';
 
 const slug = (s) => encodeURIComponent(s.toLowerCase().replace(/\s+/g, '-'));
 
 const PortfolioIndex = () => {
+    useSEO({
+        title: 'Portfolio',
+        description: 'Browse the Loyal Studio portfolio: wedding photography, pre-wedding, maternity, baby shoots, events, wedding cinematography, school photography, drone coverage and album designing.',
+        path: '/portfolio',
+    });
+
     const categories = [...new Set(content.portfolio.map(item => item.category))];
 
     return (

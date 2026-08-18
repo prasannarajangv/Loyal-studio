@@ -48,7 +48,6 @@ const Hero = () => {
 
     return (
         <section id="home" style={{
-            height: '100vh',
             width: '100%',
             position: 'relative',
             overflow: 'hidden',
@@ -64,18 +63,21 @@ const Hero = () => {
                 <AnimatePresence initial={false}>
                     <motion.img
                         key={currentIndex}
-                        src={content.hero.images[currentIndex]}
-                        srcSet={buildSrcSet(content.hero.images[currentIndex], HERO_WIDTHS)}
+                        src={content.hero.images[currentIndex].src}
+                        srcSet={buildSrcSet(content.hero.images[currentIndex].src, HERO_WIDTHS)}
                         sizes="100vw"
                         alt=""
                         loading={currentIndex === 0 ? 'eager' : 'lazy'}
                         fetchPriority={currentIndex === 0 ? 'high' : 'auto'}
                         decoding={currentIndex === 0 ? 'sync' : 'async'}
                         {...noDownloadProps}
-                        initial={{ x: '100%' }}
-                        animate={{ x: 0 }}
-                        exit={{ x: '-100%' }}
-                        transition={{ duration: 1, ease: 'easeInOut' }}
+                        initial={{ opacity: 0, scale: 1 }}
+                        animate={{ opacity: 1, scale: 1.12 }}
+                        exit={{ opacity: 0 }}
+                        transition={{
+                            opacity: { duration: 1.2, ease: 'easeInOut' },
+                            scale: { duration: 3.6, ease: 'easeOut' }
+                        }}
                         style={{
                             position: 'absolute',
                             top: 0,
@@ -83,7 +85,14 @@ const Hero = () => {
                             width: '100%',
                             height: '100%',
                             objectFit: 'cover',
-                            objectPosition: 'center',
+                            // Per-image focal point: on narrow/mobile crops, a wide
+                            // shot with off-center subjects (e.g. a couple framed
+                            // toward one side) gets cut off under plain "center"
+                            // cropping. transformOrigin matches objectPosition so
+                            // the Ken Burns zoom above also stays anchored on the
+                            // subject instead of pulling away from it.
+                            objectPosition: content.hero.images[currentIndex].focalPoint,
+                            transformOrigin: content.hero.images[currentIndex].focalPoint,
                             filter: 'brightness(0.35)',
                             ...noDownloadStyle
                         }}
@@ -131,7 +140,7 @@ const Hero = () => {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8, delay: 0.2 }}
                     style={{
-                        fontSize: '1rem',
+                        fontSize: 'clamp(0.7rem, 3vw, 1rem)',
                         fontWeight: 300,
                         letterSpacing: '2px',
                         textTransform: 'uppercase',

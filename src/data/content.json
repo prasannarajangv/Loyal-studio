@@ -1,21 +1,28 @@
 {
     "meta": {
         "title": "Loyal Studio",
-        "description": "Capturing moments that last a lifetime.",
+        "description": "Loyal Studio is a professional photography and cinematography studio in Namakkal, Tamil Nadu, specializing in wedding photography, pre-wedding shoots, maternity, baby shoots, events, drone coverage and album designing.",
         "email": "contact@loyalstudio.com",
         "phone": "+91 8760302138",
         "instagram": "https://www.instagram.com/loyal_studi0?igsh=MXdtNnY1b3ZtdDFr",
         "facebook": "https://facebook.com",
-        "youtube": "https://www.youtube.com/@loyalstudioo"
+        "youtube": "https://www.youtube.com/@loyalstudioo",
+        "address": {
+            "street": "44/45, Karupannan Street, near Elite Furniture, S P Pudur, Thillaipuram",
+            "city": "Namakkal",
+            "state": "Tamil Nadu",
+            "pincode": "637001",
+            "country": "IN"
+        }
     },
     "hero": {
         "title": "Capturing Life's Essence",
         "subtitle": "Professional Photography & Visual Artistry",
         "images": [
-            "/wedding-photography/1-1200w.webp",
-            "/pre-wedding-shoot/1-1200w.webp",
-            "/maternity-shoot/1-1200w.webp",
-            "/wedding-photography/2-1200w.webp"
+            { "src": "/wedding-photography/1-1200w.webp", "focalPoint": "center" },
+            { "src": "/pre-wedding-shoot/1-1200w.webp", "focalPoint": "75% center" },
+            { "src": "/maternity-shoot/1-1200w.webp", "focalPoint": "70% center" },
+            { "src": "/wedding-photography/2-1200w.webp", "focalPoint": "center" }
         ]
     },
     "about": {

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://loyalstudio.in/sitemap.xml

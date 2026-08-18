@@ -6,11 +6,18 @@ import content from '../data/content.json';
 import { motion, AnimatePresence } from 'framer-motion';
 import { buildSrcSet } from '../utils/responsiveImage';
 import { noDownloadProps, noDownloadStyle } from '../utils/imageProtection';
+import { useSEO } from '../hooks/useSEO';
 
 const THUMB_WIDTHS = [480, 800, 1200];
 const LIGHTBOX_WIDTHS = [800, 1200, 1920, 2400];
 
 const Home = () => {
+    useSEO({
+        title: 'Loyal Studio Photography',
+        description: content.meta.description,
+        path: '/',
+    });
+
     const [selectedItem, setSelectedItem] = useState(null);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
 

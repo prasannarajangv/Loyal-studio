@@ -14,7 +14,6 @@ const LinkItem = ({ link, isMobile = false, onNavigate }) => (
             fontSize: isMobile ? '0.9rem' : 'clamp(0.65rem, 1.5vw, 0.85rem)',
             letterSpacing: '2px',
             fontFamily: 'var(--font-heading)',
-            margin: isMobile ? '0' : 'clamp(0.5rem, 2vw, 2.5rem)',
             fontWeight: 500,
             opacity: 0.85,
             whiteSpace: 'nowrap',

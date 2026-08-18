@@ -93,6 +93,12 @@ nav > div {
   padding: 5rem 0;
 }
 
+/* Base hero height; overridden with mobile-specific rules further down. */
+#home {
+  height: 100vh;
+  height: 100dvh;
+}
+
 .app {
   min-height: 100vh;
   display: flex;
@@ -324,6 +330,21 @@ nav > div {
   }
 }
 
+/* Contact page: on small screens, show the form before the contact-info
+   block (email/phone/socials) since that's the primary action, while
+   leaving the desktop side-by-side order untouched. */
+@media (max-width: 768px) {
+  .contact-form-block {
+    order: -1;
+  }
+
+  /* Extra clearance from the fixed navbar — the default .section padding
+     shrinks a lot on mobile and left "Get in Touch" crowded against the nav. */
+  #contact.section {
+    padding-top: clamp(4.5rem, 20vw, 6.5rem);
+  }
+}
+
 /* Responsive Design - Tablet (768px and below) */
 @media (max-width: 768px) {
   .container {
@@ -544,11 +565,27 @@ nav > div {
   }
 }
 
-/* Ensure Hero parallax works smoothly on all devices */
+/* Ensure Hero parallax works smoothly on all devices.
+   height is set twice on purpose: 100vh first as a fallback for browsers
+   without dvh support, then 100dvh overrides it where supported. dvh
+   tracks the real visible viewport (address bar shown/hidden) instead of
+   the old vh unit, which measures the tallest possible viewport and was
+   pushing the hero text down into the floating contact buttons. */
 @media (max-width: 768px) {
   #home {
     height: 100vh;
+    height: 100dvh;
     overflow: hidden;
+  }
+
+  /* Extra clearance so the hero title/subtitle never sit under the fixed
+     WhatsApp/call buttons anchored bottom-right on small/medium screens.
+     Padding is added on both sides (not just the right) so the centered
+     text narrows symmetrically instead of shifting off-center. */
+  #home .container {
+    padding-bottom: 6rem;
+    padding-left: clamp(1.5rem, 8vw, 3rem);
+    padding-right: clamp(1.5rem, 8vw, 3rem);
   }
 }
 
@@ -556,5 +593,11 @@ nav > div {
 @media (max-width: 480px) {
   #home {
     min-height: 100vh;
+    min-height: 100dvh;
+  }
+
+  #home .container {
+    padding-left: clamp(2rem, 10vw, 3rem);
+    padding-right: clamp(2rem, 10vw, 3rem);
   }
 }

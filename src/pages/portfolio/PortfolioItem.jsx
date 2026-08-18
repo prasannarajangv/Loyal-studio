@@ -3,12 +3,22 @@ import { useParams, Link } from 'react-router-dom';
 import content from '../../data/content.json';
 import { buildSrcSet } from '../../utils/responsiveImage';
 import { noDownloadProps, noDownloadStyle } from '../../utils/imageProtection';
+import { useSEO } from '../../hooks/useSEO';
 
 const DETAIL_WIDTHS = [480, 800, 1200, 1920];
 
 const PortfolioItem = () => {
     const { id, category } = useParams();
     const item = content.portfolio.find(it => String(it.id) === String(id));
+
+    useSEO({
+        title: item ? item.title : 'Portfolio Item',
+        description: item
+            ? `${item.title} — ${item.category} by Loyal Studio, a photography studio based in Namakkal, Tamil Nadu.`
+            : 'Loyal Studio portfolio item.',
+        path: `/portfolio/${category || ''}/${id || ''}`,
+        image: item ? `https://loyalstudio.in${Array.isArray(item.src) ? item.src[0] : item.src}` : undefined,
+    });
 
     if (!item) {
         return (
