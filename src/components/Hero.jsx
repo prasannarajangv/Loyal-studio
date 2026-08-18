@@ -111,45 +111,6 @@ const Hero = () => {
                 zIndex: 0
             }} />
 
-            {/* Content */}
-            <div className="container" style={{
-                position: 'relative',
-                textAlign: 'center',
-                zIndex: 1,
-                paddingBottom: '3rem',
-                opacity: 1
-            }}>
-                <motion.h1
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8 }}
-                    style={{
-                        fontSize: 'clamp(0.8rem, 4vw, 2.4rem)', // Reduced by approx 10px
-                        marginBottom: '0.5rem',
-                        lineHeight: 1.1,
-                        textTransform: 'uppercase',
-                        letterSpacing: '4px',
-                        whiteSpace: 'nowrap', // Forced into a single line
-                        textShadow: '0 6px 20px rgba(0,0,0,0.6)'
-                    }}
-                >
-                    {content.hero.title}
-                </motion.h1>
-                <motion.p
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, delay: 0.2 }}
-                    style={{
-                        fontSize: 'clamp(0.7rem, 3vw, 1rem)',
-                        fontWeight: 300,
-                        letterSpacing: '2px',
-                        textTransform: 'uppercase',
-                        textShadow: '0 4px 16px rgba(0,0,0,0.55)'
-                    }}
-                >
-                    {content.hero.subtitle}
-                </motion.p>
-            </div>
         </section>
     );
 };

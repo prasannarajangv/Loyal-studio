@@ -16,8 +16,6 @@
         }
     },
     "hero": {
-        "title": "Capturing Life's Essence",
-        "subtitle": "Professional Photography & Visual Artistry",
         "images": [
             { "src": "/wedding-photography/1-1200w.webp", "focalPoint": "center" },
             { "src": "/pre-wedding-shoot/1-1200w.webp", "focalPoint": "75% center" },
